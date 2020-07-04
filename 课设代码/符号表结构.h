@@ -2,6 +2,7 @@
 #include <string>
 #include <stdio.h>
 #include <vector>
+#include "å‡½æ•°å.h"
 
 using namespace std;
 
@@ -11,108 +12,110 @@ struct TOKEN
 	int num;
 	/*
 	type_id
-	0£º¹Ø¼ü×Ö±í
-	1£º±êÊ¶·û±í
-	2£º½ç·û±í
-	3£ºÕûĞÍ³£Á¿±í
-	4£ºÊµĞÍ³£Á¿±í
-	5£º×Ö·û±í
-	6£º×Ö·û´®±í
+	0ï¼šå…³é”®å­—è¡¨
+	1ï¼šæ ‡è¯†ç¬¦è¡¨
+	2ï¼šç•Œç¬¦è¡¨
+	3ï¼šæ•´å‹å¸¸é‡è¡¨
+	4ï¼šå®å‹å¸¸é‡è¡¨
+	5ï¼šå­—ç¬¦è¡¨
+	6ï¼šå­—ç¬¦ä¸²è¡¨
 	
-	7£ºSYNBL±í
-	8£ºÀàĞÍ±í
-	9£ºÊı×é±í
-	10£ºÖÖÀà±í
-	11£ºº¯Êı±í
+	7ï¼šSYNBLè¡¨
+	8ï¼šç±»å‹è¡¨
+	9ï¼šæ•°ç»„è¡¨
+	10ï¼šç§ç±»è¡¨
+	11ï¼šå‡½æ•°è¡¨
 	
-	numÎª¸ÃÀàĞÍµÄ±êºÅ£¨Æ«ÒÆµØÖ·£©
+	numä¸ºè¯¥ç±»å‹çš„æ ‡å·ï¼ˆåç§»åœ°å€ï¼‰
 	*/
-};	//tokenĞòÁĞÓÃÓÚ±íÊ¾±íµÄÀàĞÍ
+};	//tokenåºåˆ—ç”¨äºè¡¨ç¤ºè¡¨çš„ç±»å‹
 
-//SYNBLÖ÷±í½á¹¹
+//SYNBLä¸»è¡¨ç»“æ„
 struct SYNBL
 {
-	string name;	//Ãû×Ö
-	TOKEN type;		//ÀàĞÍ
-	string CAT;		//ÖÖÀà
-	TOKEN ADDR;		//µØÖ·
+	string name;	//åå­—
+	TOKEN type;		//ç±»å‹
+	string CAT;		//ç§ç±»
+	TOKEN ADDR;		//åœ°å€
 };
 
-//ÀàĞÍ±í½á¹¹
+//ç±»å‹è¡¨ç»“æ„
 struct TYPEL
 {
-	char TVAL;		//ÀàĞÍ´úÂë
-	TOKEN TPOINT;	//ĞÅÏ¢ÄÚÈİÖ¸Ïò
+	char TVAL;		//ç±»å‹ä»£ç 
+	TOKEN TPOINT;	//ä¿¡æ¯å†…å®¹æŒ‡å‘
 };
 
-//Êı×é±í½á¹¹
+//æ•°ç»„è¡¨ç»“æ„
 struct AINFL
 {
-	int LOW;		//Êı×éÆğÊ¼±êºÅ
-	int UP;			//Êı×éÄ©Î²±êºÅ
-	char CTP;		//Êı×éÀàĞÍ
-	int CLEN;		//Êı×é³¤¶È
+	int LOW;		//æ•°ç»„èµ·å§‹æ ‡å·
+	int UP;			//æ•°ç»„æœ«å°¾æ ‡å·
+	char CTP;		//æ•°ç»„ç±»å‹
+	int CLEN;		//æ•°ç»„é•¿åº¦
 };
 
-//º¯Êı±í½á¹¹
+//å‡½æ•°è¡¨ç»“æ„
 struct PFINFL
 {
-	int nowLEVEL;	//µ±Ç°²ã´Î
-	int farLEVEL;	//µ÷ÓÃ´Ëº¯ÊıµÄ²ã´Î
-	int FN;			//²ÎÊı¸öÊı
-	TOKEN funAddr;	//ÔÚÖ÷±íÖĞµÄÎ»ÖÃ
+	int nowLEVEL;	//å½“å‰å±‚æ¬¡
+	int farLEVEL;	//è°ƒç”¨æ­¤å‡½æ•°çš„å±‚æ¬¡
+	int FN;			//å‚æ•°ä¸ªæ•°
+	TOKEN funAddr;	//åœ¨ä¸»è¡¨ä¸­çš„ä½ç½®
 };
 
-//ËÄÔªÊ½½á¹¹
+//å››å…ƒå¼ç»“æ„
 struct QT 
 {
-	string operate;  //²Ù×÷·û
-	string res1;     //µÚÒ»¸ö²Ù×÷Êı
-	string res2;     //µÚ¶ş¸ö²Ù×÷Êı
-	string result;   //²Ù×÷½á¹û
+	string operate;  //æ“ä½œç¬¦
+	string res1;     //ç¬¬ä¸€ä¸ªæ“ä½œæ•°
+	string res2;     //ç¬¬äºŒä¸ªæ“ä½œæ•°
+	string result;   //æ“ä½œç»“æœ
 };
 
-//tokenĞòÁĞ
-vector<TOKEN> TOKEN_List;
+//tokenåºåˆ—
+extern vector<TOKEN> TOKEN_List;
 
-//¹Ø¼ü×Ö±í
-const char* KT[10] = { "main","int","char","float","if","else","while","for","return" };
+//å…³é”®å­—è¡¨
+static const char* KT[10] = { "main","int","char","float","if","else","while","for","return" };
+//			        0      1      2      3     4     5       6      7      8
 
-//±êÊ¶·û±í
-vector<string> IT;
+//æ ‡è¯†ç¬¦è¡¨
+extern vector<string> IT;
 
-//½ç·û±í
-const char* PT[19] = { "+" ,"-","*","/","<",">","<=",">=","=","!=","==",";",",","(",")","[","]","{" ,"}" };
+//ç•Œç¬¦è¡¨
+static const char* PT[19] = { "+" ,"-","*","/","<",">","<=",">=","=","!=","==",";",",","(",")","[","]","{" ,"}" };
+//                             0    1   2   3   4   5    6    7   8    9   10   11  12  13  14  15  16  17  18
 
-//×Ö·û±í
-vector<char> CT;
+//å­—ç¬¦è¡¨
+extern vector<char> CT;
 
-//×Ö·û´®³£Á¿±í
-vector<string> ST;
+//å­—ç¬¦ä¸²å¸¸é‡è¡¨
+extern vector<string> ST;
 
-//ÕûĞÍ³£Á¿±í
-vector<int> IC;
+//æ•´å‹å¸¸é‡è¡¨
+extern vector<int> IC;
 
-//ÊµĞÍ³£Á¿±í
-vector<float> FC;
+//å®å‹å¸¸é‡è¡¨
+extern vector<float> FC;
 
-//SYNBLÖ÷±í
-vector<SYNBL> SYNBL_List;
+//SYNBLä¸»è¡¨
+extern vector<SYNBL> SYNBL_List;
 
-//ÀàĞÍ±í
-vector<TYPEL> TYPEL_List;
+//ç±»å‹è¡¨
+extern vector<TYPEL> TYPEL_List;
 
-//Êı×é±í
-vector<AINFL> AINFL_List;
+//æ•°ç»„è¡¨
+extern vector<AINFL> AINFL_List;
 
-//º¯Êı±í
-vector<PFINFL> PFINFL_List;
+//å‡½æ•°è¡¨
+extern vector<PFINFL> PFINFL_List;
 
-//³¤¶È±í
-vector<int> Len_List;
+//é•¿åº¦è¡¨
+extern vector<int> Len_List;
 
-//ËÄÔªÊ½ĞòÁĞ
-vector<QT> QT_List;
+//å››å…ƒå¼åºåˆ—
+extern vector<QT> QT_List;
 
 
 
