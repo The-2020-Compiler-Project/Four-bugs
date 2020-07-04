@@ -3,53 +3,260 @@
 #include <map>
 #include <set>
 #include <vector>
-#include "·ûºÅ±í½á¹¹.h"
+#include "ç¬¦å·è¡¨ç»“æ„.h"
+#include "å‡½æ•°å.h"
 
 using namespace std;
 
-TOKEN now_Token;	//µ±Ç°µÄ¶ÁÈ¡token
-int flag=1;			//¼ì²éÓï·¨·ÖÎöÊÇ·ñÕıÈ·µÄ±êÖ¾£¬Ä¬ÈÏÎª1£¬·ÖÎö´íÎóÔò±äÎª0
 
-//³õÊ¼»¯now_Token£¬Ê¹now_TokenÖ¸ÏòµÚÒ»¸ötoken
+TOKEN now_Token;	//å½“å‰çš„è¯»å–token
+int flag=1;			//æ£€æŸ¥è¯­æ³•åˆ†ææ˜¯å¦æ­£ç¡®çš„æ ‡å¿—ï¼Œé»˜è®¤ä¸º1ï¼Œåˆ†æé”™è¯¯åˆ™å˜ä¸º0
+int i;				//now_tokenè¯»å†™å¤´
+
+
+/************************************    æµ‹è¯•éƒ¨åˆ†   ************************************************/
+
+vector<TOKEN> tok;	//æµ‹è¯•ç”¨çš„tokenåºåˆ—
+
+//æµ‹è¯•å‡½æ•°
+void int_it()
+{
+	/*
+	int max(int a,int b);
+
+	int max(int a,int b)
+	{
+		if(a<b)
+		{
+			return b;
+		}
+		else
+		{
+			return a;
+		}
+	}
+
+	int main()
+	{
+		int a;
+		a = 3 * 5;
+		int b, c;
+		b = 5 * (1 + 1);
+		c = a + b;
+		if (a < b)
+		{
+			a = a + 1;
+		}
+		while (a <= b)
+		{
+			c = a + b;
+		}
+		a = max(b, c);
+		return 1;
+	}
+	*/
+
+	tok.push_back({ 0,1 });//int
+	tok.push_back({ 1,3 });//max
+	tok.push_back({ 2,13 });//(
+	tok.push_back({ 0,1 });//int
+	tok.push_back({ 1,0 });//a
+	tok.push_back({ 2,12 });//,
+	tok.push_back({ 0,1 });//int
+	tok.push_back({ 1,1 });//b
+	tok.push_back({ 2,14 });//)
+	tok.push_back({ 2,11 });//;
+	
+	tok.push_back({ 0,1 });//int
+	tok.push_back({ 1,3 });//max
+	tok.push_back({ 2,13 });//(
+	tok.push_back({ 0,1 });//int
+	tok.push_back({ 1,0 });//a
+	tok.push_back({ 2,12 });//,
+	tok.push_back({ 0,1 });//int
+	tok.push_back({ 1,1 });//b
+	tok.push_back({ 2,14 });//)
+	tok.push_back({ 2,17 });//{
+	tok.push_back({ 0,4 });//if
+	tok.push_back({ 2,13 });//(
+	tok.push_back({ 1,0 });//a
+	tok.push_back({ 2,4 });//<
+	tok.push_back({ 1,1 });//b
+	tok.push_back({ 2,14 });//)
+	tok.push_back({ 2,17 });//{
+	tok.push_back({ 0,8 });//return
+	tok.push_back({ 1,1 });//b
+	tok.push_back({ 2,11 });//;
+	tok.push_back({ 2,18 });//}
+	tok.push_back({ 0,5 });//else
+	tok.push_back({ 2,17 });//{
+	tok.push_back({ 0,8 });//return
+	tok.push_back({ 1,0 });//0
+	tok.push_back({ 2,11 });//;
+	tok.push_back({ 2,18 });//}
+	tok.push_back({ 2,18 });//}
+	
+	tok.push_back({ 0,1 });//int
+	tok.push_back({ 0,0 });//main
+	tok.push_back({ 2,13 });//(
+	tok.push_back({ 2,14 });//)
+	tok.push_back({ 2,17 });//{
+	
+	tok.push_back({ 0,1 });//int
+	tok.push_back({ 1,0 });//a
+	tok.push_back({ 2,11 });//;
+	
+	tok.push_back({ 1,0 });//a
+	tok.push_back({ 2,8 });//=
+	tok.push_back({ 3,0 });//3
+	tok.push_back({ 2,2 }); //*
+	tok.push_back({ 3,1 });//5
+	tok.push_back({ 2,11 }); //;
+	
+	tok.push_back({ 0,1 });//int
+	tok.push_back({ 1,1 });//b
+	tok.push_back({ 2,12 });//,
+	tok.push_back({ 1,2 });//c
+	tok.push_back({ 2,11 });//;
+	
+	tok.push_back({ 1,1 });//b
+	tok.push_back({ 2,8 });//=
+	tok.push_back({ 3,1 });//5
+	tok.push_back({ 2,2 });//*
+	tok.push_back({ 2,13 });//(
+	tok.push_back({ 3,2 });//1
+	tok.push_back({ 2,0 });//+
+	tok.push_back({ 3,2 });//1
+	tok.push_back({ 2,14 });//)
+	tok.push_back({ 2,11 });//;
+	
+	tok.push_back({ 1,2 });//c
+	tok.push_back({ 2,8 });//=
+	tok.push_back({ 1,1 });//b
+	tok.push_back({ 2,0 });//+
+	tok.push_back({ 1,2 });//c
+	tok.push_back({ 2,11 });//;
+	
+	tok.push_back({ 0,4 });//if
+	tok.push_back({ 2,13 });//(
+	tok.push_back({ 1,0 });//a
+	tok.push_back({ 2,4 });//<
+	tok.push_back({ 1,1 });//b
+	tok.push_back({ 2,14 });//)
+	tok.push_back({ 2,17 });//{
+	tok.push_back({ 1,0 });//a
+	tok.push_back({ 2,8 });//=
+	tok.push_back({ 1,0 });//a
+	tok.push_back({ 2,0 });//+
+	tok.push_back({ 3,2 });//1
+	tok.push_back({ 2,11 });//;
+	tok.push_back({ 2,18 });//}
+	
+	tok.push_back({ 0,6 });//while
+	tok.push_back({ 2,13 });//(
+	tok.push_back({ 1,0 });//a
+	tok.push_back({ 2,6 });//<=
+	tok.push_back({ 1,1 });//b
+	tok.push_back({ 2,0 });//+
+	tok.push_back({ 1,2 });//c
+	tok.push_back({ 2,14 });//)
+	tok.push_back({ 2,17 });//{
+	tok.push_back({ 1,2 });//c
+	tok.push_back({ 2,8 });//=
+	tok.push_back({ 1,0 });//a
+	tok.push_back({ 2,0 });//+
+	tok.push_back({ 1,1 });//b
+	tok.push_back({ 2,11 });//;
+	tok.push_back({ 2,18 });//}
+	
+	tok.push_back({ 1,0 });//a
+	tok.push_back({ 2,8 });//=
+	tok.push_back({ 1,3 });//max
+	tok.push_back({ 2,13 });//(
+	tok.push_back({ 1,1 });//b
+	tok.push_back({ 2,12 });//,
+	tok.push_back({ 1,2 });//c
+	tok.push_back({ 2,14 });//)
+	tok.push_back({ 2,11 });//;
+
+	tok.push_back({ 0,8 });//return
+	tok.push_back({ 3,2 });//1
+	tok.push_back({ 2,11 });//;
+	tok.push_back({ 2,18 });//}
+
+
+	/*
+	tok.push_back({  });//
+	tok.push_back({  });//
+	tok.push_back({  });//
+	tok.push_back({  });//
+	tok.push_back({  });//
+	tok.push_back({  });//
+	tok.push_back({  });//
+	tok.push_back({  });//
+	tok.push_back({  });//
+	tok.push_back({  });//
+	*/
+
+}
+
+
+
+/************************************    æµ‹è¯•éƒ¨åˆ†   ************************************************/
+
+
+
+
+
+
+
+
+
+//åˆå§‹åŒ–now_Tokenï¼Œä½¿now_TokenæŒ‡å‘ç¬¬ä¸€ä¸ªtoken
 int int_token()
 {
-
+	i = 0;
+	now_Token = tok.at(i);
+	return 1;
 }
 
-//now_TokenÖ¸ÏòÏÂÒ»¸ötoken
+//now_TokenæŒ‡å‘ä¸‹ä¸€ä¸ªtoken
 void readToken()
 {
-
+	i++;
+	now_Token = tok.at(i);
 }
 
 
-//³ÌĞò¿ªÊ¼
+//ç¨‹åºå¼€å§‹
 void run() 
 {   
+	int_it();
 	int_token();
 	Source();
 	if (flag == 1) 
 	{  
-		cout << "Óï·¨·ÖÎöÍê³É£¬Ã»ÓĞ´íÎó£¡" << endl;	
+		cout << "è¯­æ³•åˆ†æå®Œæˆï¼Œæ²¡æœ‰é”™è¯¯ï¼" << endl;	
 	}
 	else if (flag == 0)
 	{
-		cout << "Óï·¨·ÖÎö¹ı³ÌÖĞ´æÔÚ´íÎó£¡" << endl;
+		cout << "è¯­æ³•åˆ†æè¿‡ç¨‹ä¸­å­˜åœ¨é”™è¯¯ï¼" << endl;
 	}
 	else
 	{
-		cout << "´íÎó±êÖ¾flag½á¹û´íÎó£¡" << endl;
+		cout << "é”™è¯¯æ ‡å¿—flagç»“æœé”™è¯¯ï¼" << endl;
 	}
 
 }
 
-//<Ô´³ÌĞò>¡ú<¿ªÊ¼>
+//<æºç¨‹åº>â†’<å¼€å§‹>
 int Source()
 {
 	begin();
+	return 1;
 }
 
-//<¿ªÊ¼>¡ú<Êı¾İÀàĞÍ><Ö÷º¯Êı>|<Êı¾İÀàĞÍ><Íâ²¿¶¨Òå>
+//<å¼€å§‹>â†’<æ•°æ®ç±»å‹><ä¸»å‡½æ•°>|<æ•°æ®ç±»å‹><å¤–éƒ¨å®šä¹‰>
 int begin()
 {
 	if (now_Token.type_id == 0 && (KT[now_Token.num] == "int" || KT[now_Token.num] == "char" || KT[now_Token.num] == "float"))
@@ -65,22 +272,24 @@ int begin()
 		}
 		else
 		{
-			cout << "º¯ÊıÃûÈ±ÉÙ»òº¯ÊıÃû¶¨Òå´íÎó£¡" << endl;
+			cout << "å‡½æ•°åç¼ºå°‘æˆ–å‡½æ•°åå®šä¹‰é”™è¯¯ï¼" << endl;
 			flag = 0;
 		}
 	}
 	else
 	{
-		cout << "º¯ÊıÈ±ÉÙÀàĞÍ·û£¡" << endl;
+		cout << "å‡½æ•°ç¼ºå°‘ç±»å‹ç¬¦ï¼" << endl;
 		flag = 0;
 	}
+	return 1;
 }
 
-//<Ö÷º¯Êı>¡úmain ( ) {<¸´ºÏÓï¾ä>}
+//<ä¸»å‡½æ•°>â†’main ( ) {<å¤åˆè¯­å¥>}
 int main_function()
 {
 	if (now_Token.type_id == 0 && KT[now_Token.num] == "main")
 	{
+		readToken();
 		if (now_Token.type_id == 2 && PT[now_Token.num] == "(")
 		{
 			readToken();
@@ -97,33 +306,33 @@ int main_function()
 					}
 					else
 					{
-						cout << "Ö÷º¯Êı¶¨ÒåÈ±ÉÙ } ÓÒ»¨À¨ºÅ£¡" << endl;
+						cout << "ä¸»å‡½æ•°å®šä¹‰ç¼ºå°‘ } å³èŠ±æ‹¬å·ï¼" << endl;
 						flag = 0;
 					}
 				}
 				else
 				{
-					cout << "Ö÷º¯Êı¶¨ÒåÈ±ÉÙ } ÓÒ»¨À¨ºÅ£¡" << endl;
+					cout << "ä¸»å‡½æ•°å®šä¹‰ç¼ºå°‘ } å³èŠ±æ‹¬å·ï¼" << endl;
 					flag = 0;
 				}
 
 			}
 			else
 			{
-				cout << "Ö÷º¯Êı¶¨ÒåÖĞÈ±ÉÙ £© ÓÒÀ¨ºÅ£¡" << endl;
+				cout << "ä¸»å‡½æ•°å®šä¹‰ä¸­ç¼ºå°‘ ï¼‰ å³æ‹¬å·ï¼" << endl;
 				flag = 0;
 			}
 		}
 		else
 		{
-			cout << "Ö÷º¯Êı¶¨ÒåÖĞÈ±ÉÙ ( ×óÀ¨ºÅ£¡" << endl;
+			cout << "ä¸»å‡½æ•°å®šä¹‰ä¸­ç¼ºå°‘ ( å·¦æ‹¬å·ï¼" << endl;
 			flag = 0;
 		}
 	}
 	return 1;
 }
 
-//<Íâ²¿¶¨Òå>¡ú<º¯ÊıÍ·>;<¿ªÊ¼>|<º¯ÊıÍ·>{<¸´ºÏÓï¾ä>}<¿ªÊ¼>
+//<å¤–éƒ¨å®šä¹‰>â†’<å‡½æ•°å¤´>;<å¼€å§‹>|<å‡½æ•°å¤´>{<å¤åˆè¯­å¥>}<å¼€å§‹>
 int External()
 {
 	function_header();
@@ -143,23 +352,24 @@ int External()
 		}
 		else
 		{
-			cout << "º¯Êı¶¨ÒåÈ±ÉÙ } ÓÒ»¨À¨ºÅ£¡" << endl;
+			cout << "å‡½æ•°å®šä¹‰ç¼ºå°‘ } å³èŠ±æ‹¬å·ï¼" << endl;
 			flag = 0;
 		}
 	}
 	else
 	{
-		cout << "Íâ²¿¶¨Òå´æÔÚ´íÎó£¡" << endl;
+		cout << "å¤–éƒ¨å®šä¹‰å­˜åœ¨é”™è¯¯ï¼" << endl;
 		flag = 0;
 	}
 	return 1;
 }
 
-//<º¯ÊıÍ·>¡ú<±êÊ¶·û>(<ĞÎ²Î>)
+//<å‡½æ•°å¤´>â†’<æ ‡è¯†ç¬¦>(<å½¢å‚>)
 int function_header()
 {
 	if (now_Token.type_id == 1)
 	{
+		readToken();
 		if (now_Token.type_id == 2 && PT[now_Token.num] == "(")
 		{
 			readToken();
@@ -171,13 +381,13 @@ int function_header()
 			}
 			else
 			{
-				cout << "º¯Êı¶¨ÒåÖĞÈ±ÉÙ £© ÓÒÀ¨ºÅ£¡" << endl;
+				cout << "å‡½æ•°å®šä¹‰ä¸­ç¼ºå°‘ ï¼‰ å³æ‹¬å·ï¼" << endl;
 				flag = 0;
 			}
 		}
 		else
 		{
-			cout << "º¯Êı¶¨ÒåÖĞÈ±ÉÙ ( ×óÀ¨ºÅ£¡" << endl;
+			cout << "å‡½æ•°å®šä¹‰ä¸­ç¼ºå°‘ ( å·¦æ‹¬å·ï¼" << endl;
 			flag = 0;
 		}
 	}
@@ -186,7 +396,7 @@ int function_header()
 }
 
 
-//<ĞÎ²Î>¡ú<Êı¾İÀàĞÍ><±êÊ¶·û>|<Êı¾İÀàĞÍ><±êÊ¶·û>,<ĞÎ²Î>
+//<å½¢å‚>â†’<æ•°æ®ç±»å‹><æ ‡è¯†ç¬¦>|<æ•°æ®ç±»å‹><æ ‡è¯†ç¬¦>,<å½¢å‚>
 int Formal()
 {
 	if (now_Token.type_id == 0 && (KT[now_Token.num] == "int" || KT[now_Token.num] == "char" || KT[now_Token.num] == "float"))
@@ -195,24 +405,28 @@ int Formal()
 		if (now_Token.type_id == 1)
 		{
 			readToken();
-			Formal();
+			if (now_Token.type_id == 2 && PT[now_Token.num] == ",")
+			{
+				readToken();
+				Formal();
+			}
 		}
 		else
 		{
-			cout << "¶¨ÒåµÄĞÎ²ÎÎª·Ç±êÊ¶·û£¡" << endl;
+			cout << "å®šä¹‰çš„å½¢å‚ä¸ºéæ ‡è¯†ç¬¦ï¼" << endl;
 			flag = 0;
 		}
 	}
 	else
 	{
-		cout << "Êı¾İÀàĞÍ¶¨Òå´íÎó£¡" << endl;
+		cout << "æ•°æ®ç±»å‹å®šä¹‰é”™è¯¯ï¼" << endl;
 		flag = 0;
 	}
 	return 1;
 }
 
 
-//<¸´ºÏÓï¾ä>¡ú<±äÁ¿ÉùÃ÷><¸´ºÏÓï¾ä> | <¸³Öµ¡¢º¯Êıµ÷ÓÃÓï¾ä><¸´ºÏÓï¾ä> | <Ñ¡ÔñÓï¾ä><¸´ºÏÓï¾ä> | <Ñ­»·Óï¾ä><¸´ºÏÓï¾ä> | <·µ»ØÓï¾ä><¸´ºÏÓï¾ä> | ¦Å
+//<å¤åˆè¯­å¥>â†’<å˜é‡å£°æ˜><å¤åˆè¯­å¥> | <èµ‹å€¼ã€å‡½æ•°è°ƒç”¨è¯­å¥><å¤åˆè¯­å¥> | <é€‰æ‹©è¯­å¥><å¤åˆè¯­å¥> | <å¾ªç¯è¯­å¥><å¤åˆè¯­å¥> | <è¿”å›è¯­å¥><å¤åˆè¯­å¥> | Îµ
 int Compound() 
 {
 	if (now_Token.type_id == 0 && KT[now_Token.num] == "if")
@@ -227,7 +441,7 @@ int Compound()
 	}
 	else if (now_Token.type_id == 0 && KT[now_Token.num] == "return")
 	{
-		Cycle();
+		Back();
 		Compound();
 	}
 	else if (now_Token.type_id == 0 && (KT[now_Token.num] == "int" || KT[now_Token.num] == "char" || KT[now_Token.num] == "float"))
@@ -245,7 +459,7 @@ int Compound()
 
 
 
-//<±äÁ¿ÉùÃ÷>¡ú<Êı¾İÀàĞÍ><±êÊ¶·û>£»|<Êı¾İÀàĞÍ><±êÊ¶·û>£¬<±êÊ¶·ûÁĞ±í>£»|<Êı¾İÀàĞÍ><±êÊ¶·û><Êı×éÁĞ±í>;
+//<å˜é‡å£°æ˜>â†’<æ•°æ®ç±»å‹><æ ‡è¯†ç¬¦>ï¼›|<æ•°æ®ç±»å‹><æ ‡è¯†ç¬¦>ï¼Œ<æ ‡è¯†ç¬¦åˆ—è¡¨>ï¼›|<æ•°æ®ç±»å‹><æ ‡è¯†ç¬¦><æ•°ç»„åˆ—è¡¨>;
 int Variable()
 {
 	if (now_Token.type_id == 0 && (KT[now_Token.num] == "int" || KT[now_Token.num] == "char" || KT[now_Token.num] == "float"))
@@ -261,6 +475,7 @@ int Variable()
 			}
 			else if (now_Token.type_id == 2 && PT[now_Token.num] == ",")
 			{
+				readToken();
 				dentifier();
 				if (now_Token.type_id == 2 && PT[now_Token.num] == ";")
 				{
@@ -269,7 +484,7 @@ int Variable()
 				}
 				else
 				{
-					cout << "±äÁ¿ÉùÃ÷È±ÉÙ ; ·ÖºÅ£¡" << endl;
+					cout << "å˜é‡å£°æ˜ç¼ºå°‘ ; åˆ†å·ï¼" << endl;
 					flag = 0;
 				}
 			}
@@ -283,13 +498,13 @@ int Variable()
 				}
 				else
 				{
-					cout << "±äÁ¿ÉùÃ÷È±ÉÙ ; ·ÖºÅ£¡" << endl;
+					cout << "å˜é‡å£°æ˜ç¼ºå°‘ ; åˆ†å·ï¼" << endl;
 					flag = 0;
 				}
 			}
 			else
 			{
-				cout << "±äÁ¿ÉùÃ÷È±ÉÙ ; ·ÖºÅ£¡" << endl;
+				cout << "å˜é‡å£°æ˜ç¼ºå°‘ ; åˆ†å·ï¼" << endl;
 				flag = 0;
 			}
 			
@@ -298,13 +513,13 @@ int Variable()
 	}
 	else
 	{
-		cout << "±äÁ¿ÉùÃ÷´íÎó£¡" << endl;
+		cout << "å˜é‡å£°æ˜é”™è¯¯ï¼" << endl;
 		flag = 0;
 	}
 	return 1;
 }
 
-//<±êÊ¶·ûÁĞ±í>¡ú<±êÊ¶·û> | <±êÊ¶·û>,<±êÊ¶·ûÁĞ±í>
+//<æ ‡è¯†ç¬¦åˆ—è¡¨>â†’<æ ‡è¯†ç¬¦> | <æ ‡è¯†ç¬¦>,<æ ‡è¯†ç¬¦åˆ—è¡¨>
 int dentifier()
 {
 	if (now_Token.type_id == 1)
@@ -318,13 +533,13 @@ int dentifier()
 	}
 	else
 	{
-		cout << "±êÊ¶·û¶¨ÒåÊ§°Ü£¡" << endl;
+		cout << "æ ‡è¯†ç¬¦å®šä¹‰å¤±è´¥ï¼" << endl;
 		flag = 0;
 	}
 	return 1;
 }
 
-//<Êı×éÁĞ±í>¡ú[<ËãÊõ±í´ïÊ½>] | £¬<±êÊ¶·û>[<ËãÊõ±í´ïÊ½>]<Êı×éÁĞ±í1>
+//<æ•°ç»„åˆ—è¡¨>â†’[<ç®—æœ¯è¡¨è¾¾å¼>] | ï¼Œ<æ ‡è¯†ç¬¦>[<ç®—æœ¯è¡¨è¾¾å¼>]<æ•°ç»„åˆ—è¡¨1>
 int Array()
 {
 	if (now_Token.type_id == 2 && PT[now_Token.num] == "[")
@@ -338,7 +553,7 @@ int Array()
 		}
 		else
 		{
-			cout << "Êı×é¶¨ÒåÈ±ÉÙ ] ÓÒ·½À¨ºÅ£¡" << endl;
+			cout << "æ•°ç»„å®šä¹‰ç¼ºå°‘ ] å³æ–¹æ‹¬å·ï¼" << endl;
 			flag = 0;
 		}
 	}
@@ -365,13 +580,13 @@ int Array()
 				}
 				else
 				{
-					cout << "Êı×é¶¨ÒåÈ±ÉÙ ] ÓÒ·½À¨ºÅ£¡" << endl;
+					cout << "æ•°ç»„å®šä¹‰ç¼ºå°‘ ] å³æ–¹æ‹¬å·ï¼" << endl;
 					flag = 0;
 				}
 			}
 			else
 			{
-				cout << "Êı×é¶¨ÒåÈ±ÉÙ [ ×ó·½À¨ºÅ£¡" << endl;
+				cout << "æ•°ç»„å®šä¹‰ç¼ºå°‘ [ å·¦æ–¹æ‹¬å·ï¼" << endl;
 				flag = 0;
 			}
 		}
@@ -381,7 +596,7 @@ int Array()
 
 
 
-//<Ñ¡ÔñÓï¾ä>¡úif(<±í´ïÊ½>){<¸´ºÏÓï¾ä>}¡¾else(<±í´ïÊ½>){<¸´ºÏÓï¾ä>}¡¿
+//<é€‰æ‹©è¯­å¥>â†’if(<è¡¨è¾¾å¼>){<å¤åˆè¯­å¥>}ã€else(<è¡¨è¾¾å¼>){<å¤åˆè¯­å¥>}ã€‘
 int Select()
 {
 	if (now_Token.type_id == 0 && KT[now_Token.num] == "if")
@@ -404,43 +619,24 @@ int Select()
 						if (now_Token.type_id == 0 && KT[now_Token.num] == "else")
 						{
 							readToken();
-							if (now_Token.type_id == 2 && PT[now_Token.num] == "(")
+							if (now_Token.type_id == 2 && PT[now_Token.num] == "{")
 							{
 								readToken();
-								Expression();
-								if (now_Token.type_id == 2 && PT[now_Token.num] == ")")
+								Compound();
+								if (now_Token.type_id == 2 && PT[now_Token.num] == "}")
 								{
 									readToken();
-									if (now_Token.type_id == 2 && PT[now_Token.num] == "{")
-									{
-										readToken();
-										Compound();
-										if (now_Token.type_id == 2 && PT[now_Token.num] == "}")
-										{
-											readToken();
-											return 1;
-										}
-										else
-										{
-											cout << "Ñ­»·Óï¾äÈ±ÉÙ } ÓÒ»¨À¨ºÅ£¡" << endl;
-											flag = 0;
-										}
-									}
-									else
-									{
-										cout << "Ñ­»·Óï¾äÈ±ÉÙ { ×ó»¨À¨ºÅ£¡" << endl;
-										flag = 0;
-									}
+									return 1;
 								}
 								else
 								{
-									cout << "Ñ­»·Óï¾äÈ±ÉÙ£© ÓÒÀ¨ºÅ£¡" << endl;
+									cout << "é€‰æ‹©è¯­å¥ç¼ºå°‘ } å³èŠ±æ‹¬å·ï¼" << endl;
 									flag = 0;
 								}
 							}
 							else
 							{
-								cout << "Ñ­»·Óï¾äÈ±ÉÙ£¨ ×óÀ¨ºÅ£¡" << endl;
+								cout << "é€‰æ‹©è¯­å¥ç¼ºå°‘ { å·¦èŠ±æ‹¬å·ï¼" << endl;
 								flag = 0;
 							}
 						}
@@ -451,20 +647,20 @@ int Select()
 					}
 					else
 					{
-						cout << "Ñ¡ÔñÓï¾äÈ±ÉÙ } ÓÒ»¨À¨ºÅ£¡" << endl;
+						cout << "é€‰æ‹©è¯­å¥ç¼ºå°‘ } å³èŠ±æ‹¬å·ï¼" << endl;
 						flag = 0;
 					}
 				}
 				else
 				{
-					cout << "Ñ¡ÔñÓï¾äÈ±ÉÙ { ×ó»¨À¨ºÅ£¡" << endl;
+					cout << "é€‰æ‹©è¯­å¥ç¼ºå°‘ { å·¦èŠ±æ‹¬å·ï¼" << endl;
 					flag = 0;
 				}
 			}
 		}
 		else
 		{
-			cout << "Ñ¡ÔñÓï¾äÈ±ÉÙ £¨ ×óÀ¨ºÅ£¡" << endl;
+			cout << "é€‰æ‹©è¯­å¥ç¼ºå°‘ ï¼ˆ å·¦æ‹¬å·ï¼" << endl;
 			flag = 0;
 		}
 	}
@@ -472,20 +668,20 @@ int Select()
 		return 1;
 }
 
-//<Ñ­»·Óï¾ä>¡úwhile(<±í´ïÊ½>){<¸´ºÏÓï¾ä>}
+//<å¾ªç¯è¯­å¥>â†’while(<è¡¨è¾¾å¼>){<å¤åˆè¯­å¥>}
 int Cycle()
 {
 	if (now_Token.type_id == 0 && KT[now_Token.num] == "while")
 	{
 		readToken();
-		if (now_Token.type_id == 2 && KT[now_Token.num] == "(")
+		if (now_Token.type_id == 2 && PT[now_Token.num] == "(")
 		{
 			readToken();
 			Expression();
-			if (now_Token.type_id == 2 && KT[now_Token.num] == ")")
+			if (now_Token.type_id == 2 && PT[now_Token.num] == ")")
 			{
 				readToken();
-				if (now_Token.type_id == 2 && KT[now_Token.num] == "{")
+				if (now_Token.type_id == 2 && PT[now_Token.num] == "{")
 				{
 					readToken();
 					Compound();
@@ -496,32 +692,32 @@ int Cycle()
 					}
 					else
 					{
-						cout << "Ñ­»·Óï¾äÈ±ÉÙ } ÓÒ»¨À¨ºÅ£¡" << endl;
+						cout << "å¾ªç¯è¯­å¥ç¼ºå°‘ } å³èŠ±æ‹¬å·ï¼" << endl;
 						flag = 0;
 					}
 				}
 				else
 				{
-					cout << "Ñ­»·Óï¾äÈ±ÉÙ { ×ó»¨À¨ºÅ£¡" << endl;
+					cout << "å¾ªç¯è¯­å¥ç¼ºå°‘ { å·¦èŠ±æ‹¬å·ï¼" << endl;
 					flag = 0;
 				}
 			}
 			else
 			{
-				cout << "Ñ­»·Óï¾äÈ±ÉÙ£© ÓÒÀ¨ºÅ£¡" << endl;
+				cout << "å¾ªç¯è¯­å¥ç¼ºå°‘ï¼‰ å³æ‹¬å·ï¼" << endl;
 				flag = 0;
 			}
 		}
 		else
 		{
-			cout << "Ñ­»·Óï¾äÈ±ÉÙ£¨ ×óÀ¨ºÅ£¡" << endl;
+			cout << "å¾ªç¯è¯­å¥ç¼ºå°‘ï¼ˆ å·¦æ‹¬å·ï¼" << endl;
 			flag = 0;
 		}
 	}
 	return 1;
 }
 
-//<·µ»ØÓï¾ä>¡úreturn<±êÊ¶·û>;|return<ÕûĞÍ³£Á¿>;
+//<è¿”å›è¯­å¥>â†’return<æ ‡è¯†ç¬¦>;|return<æ•´å‹å¸¸é‡>;
 int Back()
 {
 	if (now_Token.type_id == 0 && KT[now_Token.num] == "return")
@@ -529,6 +725,7 @@ int Back()
 		readToken();
 		if (now_Token.type_id == 1 || now_Token.type_id == 3)
 		{
+			readToken();
 			if (now_Token.type_id == 2 && PT[now_Token.num] == ";")
 			{
 				readToken();
@@ -536,20 +733,20 @@ int Back()
 			}
 			else
 			{
-				cout << "È±ÉÙ ; ·ÖºÅ£¡" << endl;
+				cout << "ç¼ºå°‘ ; åˆ†å·ï¼" << endl;
 				flag = 0;
 			}
 		}
 		else
 		{
-			cout << "·µ»ØÖµ·Ç±êÊ¶·û»òÕûÊı³£Á¿£¡" << endl;
+			cout << "è¿”å›å€¼éæ ‡è¯†ç¬¦æˆ–æ•´æ•°å¸¸é‡ï¼" << endl;
 			flag = 0;
 		}
 	}
 	return 1;
 }
 
-//<¸³Öµ¡¢º¯Êıµ÷ÓÃÓï¾ä>¡ú < ±êÊ¶·û >= <±í´ïÊ½>£» | < ±êÊ¶·û >= <±êÊ¶·û>(<Êµ²Î>); | <±êÊ¶·û>(<Êµ²Î>);
+//<èµ‹å€¼ã€å‡½æ•°è°ƒç”¨è¯­å¥>â†’ < æ ‡è¯†ç¬¦ >= <è¡¨è¾¾å¼>ï¼› | < æ ‡è¯†ç¬¦ >= <æ ‡è¯†ç¬¦>(<å®å‚>); | <æ ‡è¯†ç¬¦>(<å®å‚>);
 int Call_and_Assignment()
 {
 	if (now_Token.type_id == 1)
@@ -578,19 +775,19 @@ int Call_and_Assignment()
 					}
 					else
 					{
-						cout << "È±ÉÙ ; ·ÖºÅ£¡" << endl;
+						cout << "ç¼ºå°‘ ; åˆ†å·ï¼" << endl;
 						flag = 0;
 					}
 				}
 				else
 				{
-					cout << "È±ÉÙ £© ·´À¨ºÅ£¡" << endl;
+					cout << "ç¼ºå°‘ ï¼‰ åæ‹¬å·ï¼" << endl;
 					flag = 0;
 				}
 			}
 			else
 			{
-				cout << "¸³Öµ»òº¯Êıµ÷ÓÃ´íÎó£¡" << endl;
+				cout << "èµ‹å€¼æˆ–å‡½æ•°è°ƒç”¨é”™è¯¯ï¼" << endl;
 				flag = 0;
 			}
 		}
@@ -608,47 +805,47 @@ int Call_and_Assignment()
 				}
 				else
 				{
-					cout << "È±ÉÙ ; ·ÖºÅ£¡" << endl;
+					cout << "ç¼ºå°‘ ; åˆ†å·ï¼" << endl;
 					flag = 0;
 				}
 			}
 			else
 			{
-				cout << "È±ÉÙ £© ·´À¨ºÅ£¡" << endl;
+				cout << "ç¼ºå°‘ ï¼‰ åæ‹¬å·ï¼" << endl;
 				flag = 0;
 			}
 		}
 	}
 	else
 	{
-		cout << "¸³Öµ»òº¯Êıµ÷ÓÃ´íÎó£¡" << endl;
+		cout << "èµ‹å€¼æˆ–å‡½æ•°è°ƒç”¨é”™è¯¯ï¼" << endl;
 		flag = 0;
 	}
 	return 1;
 }
 
-//<Êµ²Î>¡ú<±êÊ¶·û>|<±êÊ¶·û>,<Êµ²Î>
+//<å®å‚>â†’<æ ‡è¯†ç¬¦>|<æ ‡è¯†ç¬¦>,<å®å‚>
 int Actual()
 {
 	if (now_Token.type_id == 1)
 	{
-		readToken;
+		readToken();
 		if (now_Token.type_id == 2 && PT[now_Token.num] == ",")
 		{
-			readToken;
+			readToken();
 			Actual();
 		}
 	}
 	else
 	{
-		cout << "º¯ÊıÊµ²Î¶¨Òå´íÎó£¡" << endl;
+		cout << "å‡½æ•°å®å‚å®šä¹‰é”™è¯¯ï¼" << endl;
 		flag = 0;
 	}
 	return 1;
 }
 
 
-//<±í´ïÊ½>¡ú<ËãÊõ±í´ïÊ½>|<Âß¼­±í´ïÊ½>|<×Ö·û³£Á¿>|<×Ö·û´®³£Á¿>
+//<è¡¨è¾¾å¼>â†’<ç®—æœ¯è¡¨è¾¾å¼>|<é€»è¾‘è¡¨è¾¾å¼>|<å­—ç¬¦å¸¸é‡>|<å­—ç¬¦ä¸²å¸¸é‡>
 int Expression()
 {
 	Arithmetic_Expression();
@@ -661,7 +858,7 @@ int Expression()
 
 }
 
-//<ËãÊı±í´ïÊ½>¡ú <T> ¡¾W1 <T>¡¿
+//<ç®—æ•°è¡¨è¾¾å¼>â†’ <T> ã€W1 <T>ã€‘
 int Arithmetic_Expression()
 {
 	T();
@@ -673,7 +870,7 @@ int Arithmetic_Expression()
 	return 1;
 }
 
-//<T>¡ú<F> ¡¾W2 <F>¡¿
+//<T>â†’<F> ã€W2 <F>ã€‘
 int T()
 {
 	F();
@@ -686,7 +883,7 @@ int T()
 }
 
 
-//<F>¡ú(<ËãÊõ±í´ïÊ½>)|<±êÊ¶·û> |<ÕûÊı>|<ÊµÊı>
+//<F>â†’(<ç®—æœ¯è¡¨è¾¾å¼>)|<æ ‡è¯†ç¬¦> |<æ•´æ•°>|<å®æ•°>
 int F()
 {
 	if (now_Token.type_id == 2 && PT[now_Token.num] == "(")
@@ -699,7 +896,7 @@ int F()
 			return 1;
 		}
 	}
-	else if (now_Token.type_id == 3 || now_Token.type_id == 4)
+	else if (now_Token.type_id == 3 || now_Token.type_id == 4 || now_Token.type_id == 1)
 	{
 		readToken();
 		return 1;
@@ -712,7 +909,7 @@ int F()
 	return 1;
 }
 
-//Âß¼­±í´ïÊ½
+//é€»è¾‘è¡¨è¾¾å¼
 int Logic_Expression()
 {
 	if (now_Token.type_id == 2 && (PT[now_Token.num] == "<" || 
